@@ -9,8 +9,8 @@
     - [Principais instruções do Dockerfile](#principais-instruções-do-dockerfile)
     - [CLI](#cli)
   - [Aulas](#aulas)
-    - [Bloco 2 - Criando nossa primeira Imagem](#bloco-2---criando-nossa-primeira-imagem)
-      - [Estrutura de um Dockerfile](#estrutura-de-um-dockerfile)
+    - [Estrutura de um Dockerfile](#estrutura-de-um-dockerfile)
+    - [Rodando Nosso Container](#rodando-nosso-container)
 
 ## Links importantes
 
@@ -90,15 +90,19 @@ Isso construirá uma imagem com a tag `meu_projeto:1.0` usando o Dockerfile no d
 
 ### CLI
 
-```bash
+```powershell
 # criar imagem baseada no script do Dockerfile (o ponto referencia o Dockerfile)
 $ docker build -t <name-image> .
 
 # mostrar detalhes da imagem criada
 $ docker image ls <name-image>
+ou
+$ docker image ls <CONTAINER_ID>
 
 # mostrar log de criação e uso da imagem
 $ docker image history <name-image>
+ou
+$ docker image history <CONTAINER_ID>
 
 # subir container (--rm: deleta após uso, -p: port)
 $ docker run --rm -p 3000:3000 <name-image>
@@ -129,12 +133,14 @@ $ docker pull <IMAGE_NAME:TAG>
 
 ## Aulas
 
-### Bloco 2 - Criando nossa primeira Imagem
-
-#### Estrutura de um Dockerfile
+### Estrutura de um Dockerfile
 
 Commit: [Estrutura de um Dockerfile](https://github.com/rocketseat-education/devops-docker-containers/commit/0f8c46d5dcadcc8088a2f6a5262be3bc5a7d2557)
 
-Nesta aula, discutimos a continuação da construção do Dockerfile para executar nossa aplicação. Abordamos instruções como workdir para definir o diretório de trabalho, copy para copiar arquivos, run para executar comandos e cmd para iniciar a aplicação. Exploramos a importância de expor portas e a criação de imagens Docker. Também destacamos a necessidade de otimizar o tamanho das imagens geradas. Ao final, preparamos a imagem para rodar o container.
+Nesta aula, discutimos a continuação da construção do `Dockerfile` para executar nossa aplicação. Abordamos instruções como workdir para definir o diretório de trabalho, copy para copiar arquivos, `run` para executar comandos e `cmd` para iniciar a aplicação. Exploramos a importância de expor portas e a criação de imagens Docker. Também destacamos a necessidade de otimizar o tamanho das imagens geradas. Ao final, preparamos a imagem para rodar o container.
 
-Devido as dependências do projeto `npx @nestjs/cli@latest new api` rodado em 31/03/2025, foi necessário utilizar o `node:20-slim` como *tag* para garantir compatibilidade dos pacotes no **nestjs**.
+Devido as dependências do projeto `npx @nestjs/cli@latest new api` rodado em 31/03/2025, foi necessário utilizar o `node:20-slim` como *tag* para garantir compatibilidade dos pacotes iniciais do **nestjs**.
+
+### Rodando Nosso Container
+
+Nesta aula, abordei a criação e execução de um container Docker a partir de uma imagem. Expliquei sobre a importância de tags, Image ID, tamanho da imagem e utilização do comando `docker run`. Destaquei a instrução `-rm` para deletar o container ao final do ciclo de vida, mapeamento de portas com `-p`, e a visualização de containers em execução com `docker ps`. Também mencionei a execução em background com `-d` e a visualização de logs com `docker logs`. Finalizei ressaltando a importância das boas práticas na criação de containers.
