@@ -7,10 +7,17 @@
   - [Links Importantes](#links-importantes)
   - [Conceitos e Explicações](#conceitos-e-explicações)
     - [CLI](#cli)
-  - [Conceitos](#conceitos)
+    - [importância da comunicação e redes (network) em containers Docker](#importância-da-comunicação-e-redes-network-em-containers-docker)
+      - [Tipos de Redes no Docker](#tipos-de-redes-no-docker)
+      - [Comunicação Entre Containers](#comunicação-entre-containers)
+      - [Exposição de Portas e Comunicação Externa](#exposição-de-portas-e-comunicação-externa)
+      - [Segurança e Isolamento](#segurança-e-isolamento)
+      - [Conclusão](#conclusão)
     - [Como trabalhar com arquivos dentro de um Container?](#como-trabalhar-com-arquivos-dentro-de-um-container)
     - [O que são Volumes?](#o-que-são-volumes)
       - [Lidando com Volumes em Docker](#lidando-com-volumes-em-docker)
+  - [Aulas](#aulas)
+    - [Camada de abstração](#camada-de-abstração)
 
 ## Links Importantes
 
@@ -18,39 +25,109 @@
 
 ### CLI
 
-```bash
+```powershell
+
 # exibir lista de conexões com o Docker
 $ docker network ls
 
 # criar conexão com o Docker
-$ docker network create [nome-conexao]
+$ docker network create <nome-conexao>
 
 # remover uma conexão
-$ docker network rm [nome-conexao]
+$ docker network rm <nome-conexao>
 
 # associar uma rede a um container
-$ docker network connect [ID_REDE] [ID_CONTAINER]
+$ docker network connect <ID_REDE> <ID_CONTAINER>
 
 # inspecionar rede conectada
-$ docker network inspect [ID_REDE]
+$ docker network inspect <ID_REDE>
 
 # inspecionar container
-$ docker container inspect [ID_CONTAINER]
+$ docker container inspect <ID_CONTAINER>
 
 # acessar arquivos do container
-$ docker exec -it [ID_CONTAINER] bash
+$ docker exec -it <ID_CONTAINER> bash
 
 # criar volume 
-$ docker volume create [nome-volume]
+$ docker volume create <nome-volume>
 
 # remover volume 
-$ docker volume create [nome-volume]
+$ docker volume create <nome-volume>
 
 # inspecionar volume
-$ docker volume inspect [nome-volume]
+$ docker volume inspect <nome-volume>
 ```
 
-## Conceitos
+### importância da comunicação e redes (network) em containers Docker
+
+A comunicação e redes no Docker são essenciais para garantir que os containers possam interagir entre si, com serviços externos e com o host. O Docker fornece um sistema de redes flexível que permite configurar diferentes tipos de conectividade conforme a necessidade da aplicação.  
+
+#### Tipos de Redes no Docker
+
+O Docker possui vários drivers de rede que controlam como os containers se comunicam:  
+
+- **Bridge (Padrão)**  
+  - Usado quando um container é iniciado sem especificar uma rede.  
+  - Containers na mesma rede bridge podem se comunicar entre si usando nomes de serviço (DNS interno do Docker).  
+  - Exemplo:  
+
+    ```powershell
+    docker network create my_bridge
+    docker run -d --name app --network my_bridge my_image
+    docker run -d --name db --network my_bridge mysql
+    ```
+  
+- **Host**  
+  - O container compartilha a pilha de rede do host, eliminando a necessidade de mapeamento de portas.  
+  - Útil para reduzir latência e quando o container precisa acessar diretamente as interfaces do host.  
+  - Exemplo:  
+  
+    ```powershell
+    docker run --network host nginx
+    ```
+
+- **None**  
+  - O container é isolado da rede, sem acesso externo.  
+  - Pode ser usado para segurança em processos que não precisam de comunicação.  
+  - Exemplo:  
+  
+    ```powershell
+    docker run --network none busybox
+    ```
+
+- **Overlay** (usado em Swarm)  
+  - Conecta containers em diferentes hosts do Docker.  
+  - Necessário para aplicações distribuídas.  
+
+- **Macvlan**  
+  - Permite que containers tenham um endereço MAC próprio e sejam tratados como dispositivos de rede pelo host.  
+
+#### Comunicação Entre Containers
+
+- Containers na **mesma rede bridge** podem se comunicar usando seus nomes como hostname.  
+- Se estiverem em redes diferentes, é necessário configurar **port forwarding** ou utilizar **Docker Compose** para criar uma rede compartilhada.  
+
+#### Exposição de Portas e Comunicação Externa
+
+- Containers podem expor portas para o host usando `-p`.  
+- Exemplo:  
+  
+  ```powershell
+  docker run -d -p 8080:80 nginx
+  ```
+
+  Aqui, o Nginx dentro do container responde na porta `8080` do host.  
+
+- O Docker também permite publicar portas automaticamente com `-P`, mapeando portas aleatórias.  
+
+#### Segurança e Isolamento
+
+- **Firewalls e regras de iptables** controlam o tráfego entre containers e o host.  
+- **Network Policies** em Kubernetes podem definir restrições de comunicação.  
+
+#### Conclusão
+
+A comunicação em containers Docker é fundamental para arquiteturas distribuídas, permitindo que serviços independentes se comuniquem de forma eficiente e segura. O uso correto dos drivers de rede garante desempenho, escalabilidade e segurança.
 
 ### Como trabalhar com arquivos dentro de um Container?
 
@@ -60,7 +137,7 @@ Para trabalhar com arquivos dentro de um contêiner Docker, você tem algumas op
 
    Exemplo:
 
-   ```bash
+   ```powershell
    # Copiando um arquivo do host para o contêiner
    docker cp arquivo.txt meu-container:/caminho/destino/arquivo.txt
 
@@ -72,7 +149,7 @@ Para trabalhar com arquivos dentro de um contêiner Docker, você tem algumas op
 
    Exemplo:
 
-   ```bash
+   ```powershell
    docker run -d --name meu-container -v /caminho/no/host:/caminho/no/contêiner imagem
    ```
 
@@ -80,7 +157,7 @@ Para trabalhar com arquivos dentro de um contêiner Docker, você tem algumas op
 
    Exemplo:
 
-   ```bash
+   ```powershell
    docker exec -it meu-container bash
    # Dentro do contêiner, você pode usar comandos como cp, mv, rm, mkdir, etc.
    cp /caminho/arquivo.txt /caminho/destino/arquivo.txt
@@ -90,7 +167,7 @@ Para trabalhar com arquivos dentro de um contêiner Docker, você tem algumas op
 
    Exemplo de Dockerfile:
 
-   ```bash
+   ```Dockerfile
    FROM ubuntu:latest
    COPY arquivo.txt /caminho/no/contêiner/arquivo.txt
    ```
@@ -109,7 +186,7 @@ Os volumes no Docker são diretórios ou arquivos especiais que residem fora do 
 
    Você pode criar um volume usando o comando `docker volume create`.
 
-   ```bash
+   ```powershell
    docker volume create meu-volume
    ```
 
@@ -117,13 +194,13 @@ Os volumes no Docker são diretórios ou arquivos especiais que residem fora do 
 
    Você pode montar um volume em um contêiner usando a opção `-v` ou `--mount` ao iniciar o contêiner.
 
-   ```bash
+   ```powershell
    docker run -d --name meu-container -v meu-volume:/caminho/no/contêiner imagem
    ```
 
    ou
 
-   ```bash
+   ```powershell
    docker run -d --name meu-container --mount source=meu-volume,target=/caminho/no/contêiner imagem
    ```
 
@@ -131,7 +208,7 @@ Os volumes no Docker são diretórios ou arquivos especiais que residem fora do 
 
    Além de criar volumes dedicados, você também pode montar diretórios do host como volumes.
 
-   ```bash
+   ```powershell
    docker run -d --name meu-container -v /caminho/no/host:/caminho/no/contêiner imagem
    ```
 
@@ -139,7 +216,7 @@ Os volumes no Docker são diretórios ou arquivos especiais que residem fora do 
 
    Você pode listar todos os volumes disponíveis no sistema usando o comando `docker volume ls`.
 
-   ```bash
+   ```powershell
    docker volume ls
    ```
 
@@ -147,7 +224,7 @@ Os volumes no Docker são diretórios ou arquivos especiais que residem fora do 
 
    Você pode remover volumes não utilizados com o comando `docker volume rm`.
 
-   ```bash
+   ```powershell
    docker volume rm meu-volume
    ```
 
@@ -155,8 +232,14 @@ Os volumes no Docker são diretórios ou arquivos especiais que residem fora do 
 
    Você também pode definir volumes em um Dockerfile, indicando quais diretórios dentro do contêiner devem ser tratados como volumes.
 
-   ```bash
+   ```powershell
    VOLUME /caminho/no/contêiner
    ```
 
 Volumes são essenciais para muitos casos de uso do Docker, como persistência de dados, compartilhamento de arquivos entre contêineres e integração com sistemas de armazenamento externos. Eles oferecem uma maneira flexível e poderosa de lidar com o armazenamento de dados em contêineres Docker.
+
+## Aulas
+
+### Camada de abstração
+
+Nesta aula, abordamos a importância da comunicação e redes em containers Docker. Exploramos os conceitos de redes, como o driver bridge, null e roast, e a criação de redes personalizadas. Destacamos a organização de redes por projetos e a utilização de redes específicas para diferentes aplicações. Além disso, discutimos a criação de redes com o comando `docker network create` e a importância das boas práticas, como a utilização de tags para otimização. Na próxima aula, vamos aprofundar o conhecimento em redes e realizar algumas práticas.
