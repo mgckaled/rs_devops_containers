@@ -70,5 +70,7 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "main": "index.js",
+  "packageManager": "yarn@4.8.1"
 }
