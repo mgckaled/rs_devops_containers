@@ -111,7 +111,7 @@ $ docker image history <CONTAINER_ID>
 # subir container (--rm: deleta após uso, -p: port)
 $ docker run --rm -p 3000:3000 <name-image>
 
-# subir container (-p: port, -d: execução em background)
+# subir container (-p: port, -d: <detach> execução em background)
 $ docker run -p 3000:3000 -d <name-image>
 
 # listar containers em execução

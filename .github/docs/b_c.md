@@ -19,6 +19,9 @@
   - [Aulas](#aulas)
     - [Camada de abstração](#camada-de-abstração)
     - [Gerenciando redes](#gerenciando-redes)
+    - [Arquivos e Containers](#arquivos-e-containers)
+    - [Entendendo sobre volumes](#entendendo-sobre-volumes)
+    - [Persistindo informações nos volumes](#persistindo-informações-nos-volumes)
 
 ## Links Importantes
 
@@ -46,7 +49,7 @@ $ docker network inspect <ID_REDE>
 # inspecionar container
 $ docker container inspect <ID_CONTAINER>
 
-# acessar arquivos do container
+# acessar arquivos do container (-it: interatividade)
 $ docker exec -it <ID_CONTAINER> bash
 
 # criar volume 
@@ -57,6 +60,9 @@ $ docker volume create <nome-volume>
 
 # inspecionar volume
 $ docker volume inspect <nome-volume>
+
+# Exemplo de associação de network e volume a um container com definição de nome
+$ docker run -volume primeiro-volume:/usr/src/app --network primeira-network --name nice-container -p 3001:3000 -d api-rocket:v1 
 ```
 
 ### importância da comunicação e redes (network) em containers Docker
@@ -248,3 +254,15 @@ Nesta aula, abordamos a importância da comunicação e redes em containers Dock
 ### Gerenciando redes
 
 Nesta aula, foi abordado como associar uma rede a um container Docker. Foram apresentadas duas formas de fazer essa associação: utilizando o comando `docker network connect` para containers já em execução e definindo a rede no momento da criação do container com o parâmetro `--network`. Foi explicado como verificar a associação da rede ao container utilizando os comandos `docker network inspect` e `docker container inspect`. Também foi mencionado que um container pode estar associado a várias redes.
+
+### Arquivos e Containers
+
+Esta aula, aborda a importância dos volumes em containers Docker para manter dados persistentes. Mostra como os arquivos são armazenados no container e como são perdidos ao reconstruir o container. Destaca a necessidade de separar responsabilidades e exemplifica a criação de arquivos dentro do container. Demonstra como os arquivos são perdidos sem volumes persistentes. O instrutor encerra indicando que o próximo vídeo abordará como manter arquivos persistentes em volumes específicos.
+
+### Entendendo sobre volumes
+
+Nesta aula, abordamos o conceito de volumes no Docker. Volumes são diretórios externos que permitem persistência de dados, essenciais para salvar arquivos e manter dados em containers. A criação e associação de volumes são fundamentais para garantir a persistência de dados entre reinicializações de containers. O comando `docker volume` é utilizado para gerenciar volumes, permitindo a criação, inspeção e remoção de volumes. A associação de volumes com containers é feita através do comando `docker run -v`, garantindo a persistência dos dados.
+
+### Persistindo informações nos volumes
+
+Nesta aula, abordo a criação de arquivos em containers Docker e a persistência desses arquivos em volumes. Demonstrando como criar, verificar e manter arquivos em containers com volumes associados. Destaco a importância de apontar para o volume ao executar um container para evitar a perda de arquivos. Exploro a continuidade da existência dos volumes mesmo após a exclusão dos arquivos e a possibilidade de restaurar arquivos ao associar um volume novamente. Esses conceitos serão aprofundados nos módulos futuros.
