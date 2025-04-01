@@ -18,6 +18,7 @@
       - [Lidando com Volumes em Docker](#lidando-com-volumes-em-docker)
   - [Aulas](#aulas)
     - [Camada de abstração](#camada-de-abstração)
+    - [Gerenciando redes](#gerenciando-redes)
 
 ## Links Importantes
 
@@ -243,3 +244,7 @@ Volumes são essenciais para muitos casos de uso do Docker, como persistência d
 ### Camada de abstração
 
 Nesta aula, abordamos a importância da comunicação e redes em containers Docker. Exploramos os conceitos de redes, como o driver bridge, null e roast, e a criação de redes personalizadas. Destacamos a organização de redes por projetos e a utilização de redes específicas para diferentes aplicações. Além disso, discutimos a criação de redes com o comando `docker network create` e a importância das boas práticas, como a utilização de tags para otimização. Na próxima aula, vamos aprofundar o conhecimento em redes e realizar algumas práticas.
+
+### Gerenciando redes
+
+Nesta aula, foi abordado como associar uma rede a um container Docker. Foram apresentadas duas formas de fazer essa associação: utilizando o comando `docker network connect` para containers já em execução e definindo a rede no momento da criação do container com o parâmetro `--network`. Foi explicado como verificar a associação da rede ao container utilizando os comandos `docker network inspect` e `docker container inspect`. Também foi mencionado que um container pode estar associado a várias redes.
