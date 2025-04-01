@@ -62,7 +62,7 @@ $ docker volume create <nome-volume>
 $ docker volume inspect <nome-volume>
 
 # Exemplo de associação de network e volume a um container com definição de nome
-$ docker run -volume primeiro-volume:/usr/src/app --network primeira-network --name nice-container -p 3001:3000 -d api-rocket:v1 
+$ docker run --volume primeiro-volume:/usr/src/app --network primeira-network --name nice-container -p 3001:3000 -d api-rocket:v1 
 ```
 
 ### importância da comunicação e redes (network) em containers Docker
