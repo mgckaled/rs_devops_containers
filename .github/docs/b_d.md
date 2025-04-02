@@ -12,6 +12,7 @@
     - [Alpine e Stretch](#alpine-e-stretch)
     - [Adicionando o Alpine na nossa imagem](#adicionando-o-alpine-na-nossa-imagem)
     - [Criando múltiplos estágios](#criando-múltiplos-estágios)
+    - [Comparando imagens](#comparando-imagens)
 
 ## Links Importantes
 
@@ -67,3 +68,11 @@ Commit: [Criando múltiplos estágios](https://github.com/rocketseat-education/d
 Nesta aula, abordo o conceito de multi-stage building para otimização de containers. Explico como dividir o processo de build em diferentes estágios, evitando incluir itens desnecessários na imagem final. Demonstro na prática como utilizar aliases e copiar arquivos entre estágios, resultando em uma imagem mais leve e otimizada. Ao final, realizo um docker build para mostrar a redução do tamanho da imagem com o multi-stage build.
 
 - tamanho imagem `node:20-alpine3.21` com multiplios estágios de `build`: `api-rocket:v3` = 335.45MB
+
+### Comparando imagens
+
+Commit: [Comparando imagens](https://github.com/rocketseat-education/devops-docker-containers/commit/6e3c5569760019e86b1d605ca59cf37c34e31840)
+
+Nesta aula, otimizamos uma imagem Docker, reduzindo seu tamanho de 1GB para 210MB. Realizamos ajustes, removendo bibliotecas desnecessárias e executando comandos como workspaces focus --production e yarn-cache-clean. Enfrentamos um erro ao rodar o yarn run-bind devido à dependência dev. Corrigimos isso executando o yarn antes do build. Testamos a imagem Docker e verificamos os arquivos dentro do container. Encerramos a otimização e nos preparamos para falar sobre orquestração de containers em ambiente local.
+
+- tamanho imagem `node:20-alpine3.21` com multiplios estágios de `build` e `yarn workspaces focus --production && yarn cache clean` após o `yarn run build`: `api-rocket:v4` = 143.77MB (COM ERRO: SEM PERMISÃO YARN)

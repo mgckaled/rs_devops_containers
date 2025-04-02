@@ -69,21 +69,21 @@
 
 ## Quiz - Melhorando a Performance Alpine e Stretch
 
-1 - ** **Resposta:**
+1 - *Qual é o principal objetivo da otimização de contêineres no Docker?* **Resposta:** Reduzir o tamanho e a complexidade das imagens de contêiner
 
-2 - ** **Resposta:**
+2 - *Por que a imagem Alpine é preferida em relação à imagem Debian em certos casos?* **Resposta:** Porque a imagem Alpine é uma distribuição Linux extremamente enxuta, com poucos pacotes e orientada à execução eficiente de aplicativos.
 
-3 - ** **Resposta:**
+3 - *O que é Multi-Stage Build (construção em múltiplos estágios) no contexto do Docker?* **Resposta:** Um método de construção de imagens que divide o processo de construção em múltiplos estágios, onde cada estágio é responsável por uma etapa específica.
 
-4 - ** **Resposta:**
+4 - *Como é possível copiar artefatos gerados em um estágio de construção para outro estágio no Multi-Stage Build?* **Resposta:** Usando o comando `COPY --from`
 
-5 - ** **Resposta:**
+5 - *Qual é o principal benefício do Multi-Stage Build em relação à otimização de imagens no Docker?* **Resposta:** Reduz o tempo de construção e o tamanho das imagens finais.
 
-6 - ** **Resposta:**
+6 - *Por que é importante reconstruir a imagem do contêiner sempre que houver alterações no Dockerfile?* **Resposta:** Para invalidar o cache e garantir que as alterações sejam refletidas na imagem final.
 
-7 - ** **Resposta:**
+7 - *Por que é importante reconstruir a imagem do contêiner sempre que houver alterações no Dockerfile?* **Resposta:** `docker build`
 
-8 - ** **Resposta:**
+8 - *Por que é importante minimizar o tamanho das imagens de contêiner no Docker?* **Resposta:** Para melhorar o desempenho, a eficiência e a escalabilidade das aplicações.
 
 ## Quiz - Trabalhando com múltiplos containers
 
